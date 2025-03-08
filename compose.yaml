@@ -1,0 +1,67 @@
+services:
+  symfony:
+    build: ./symfony
+    container_name: symfony
+    ports:
+      - "8080:80"
+    volumes:
+      - ./symfony:/var/www/html
+    environment:
+      DATABASE_URL: "postgresql://symfony:secret@db:5432/symfony?sslmode=disable&serverVersion=15&charset=utf8"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    container_name: caddy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy_config:/config
+    depends_on:
+      - nuxt
+      - symfony
+    networks:
+      - app-network
+  nuxt:
+    build: ./nuxt
+    container_name: nuxt
+    ports:
+      - "3000:3000"
+    environment:
+      BASE_URL: "https://localhost"
+      API_BASE_URL: "https://localhost/api"
+      APP_NAME: "KP-Lite"
+    networks:
+      - app-network
+  db:
+    image: postgres:16
+    container_name: db
+    environment:
+      POSTGRES_DB: symfony
+      POSTGRES_USER: symfony
+      POSTGRES_PASSWORD: secret
+      POSTGRES_HOST_AUTH_METHOD: trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U symfony -d symfony"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+  caddy_data:
+
+networks:
+  app-network:
+    driver: bridge

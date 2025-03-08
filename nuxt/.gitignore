@@ -1,0 +1,12 @@
+node_modules
+dist
+manifest
+schema
+types
+nuxt
+tsconfig.json
+*.env
+*.env.example
+*.env.local
+*.env.staging
+.eslintcache

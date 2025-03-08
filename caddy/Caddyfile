@@ -1,0 +1,15 @@
+localhost {
+    tls internal
+    reverse_proxy nuxt:3000
+
+    handle /api/* {
+        reverse_proxy symfony:80 {
+            header_up X-Forwarded-Proto {scheme}
+            header_up Host {host}
+        }
+    }
+    
+    handle /uploads/* {
+        reverse_proxy symfony:80
+    }
+}
