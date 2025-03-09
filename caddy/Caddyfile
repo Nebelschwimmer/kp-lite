@@ -1,4 +1,4 @@
-localhost {
+nebelschwimmer.site {
     tls internal
     reverse_proxy nuxt:3000
 

@@ -35,8 +35,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      BASE_URL: "https://localhost"
-      API_BASE_URL: "https://localhost/api"
+      BASE_URL: "https://nebelschwimmer.site"
+      API_BASE_URL: "https://nebelschwimmer.site"
       APP_NAME: "KP-Lite"
     networks:
       - app-network
