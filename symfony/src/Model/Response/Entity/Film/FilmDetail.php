@@ -45,6 +45,8 @@ class FilmDetail
   public ?array $teamData = [];
   public ?array $publisherData = [];
 
+  public ?string $poster;
+
   public function getId(): int
   {
     return $this->id;
@@ -249,6 +251,18 @@ class FilmDetail
   public function setTeamData(array $teamData): static
   {
     $this->teamData = $teamData;
+
+    return $this;
+  }
+
+  public function getPoster(): ?string
+  {
+    return $this->poster;
+  }
+
+  public function setPoster(?string $poster): static
+  {
+    $this->poster = $poster;
 
     return $this;
   }

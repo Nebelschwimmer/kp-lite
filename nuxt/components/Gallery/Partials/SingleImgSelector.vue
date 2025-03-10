@@ -16,16 +16,19 @@
               border
               @click="toggle"
             >
-			<template #image>
-				<v-img :src="img" cover>
-					<template v-if="index !== 0" #placeholder >
-						<v-sheet height="100%">
-							<div class="d-flex align-center justify-center fill-height">
-								<v-progress-circular indeterminate/>
-							</div>
-						</v-sheet>
-					</template> </v-img>
-			</template>
+              <template #image>
+                <v-img :src="img" cover>
+                  <template v-if="index !== 0" #placeholder>
+                    <v-sheet height="100%">
+                      <div
+                        class="d-flex align-center justify-center fill-height"
+                      >
+                        <v-progress-circular indeterminate />
+                      </div>
+                    </v-sheet>
+                  </template>
+                </v-img>
+              </template>
               <v-scroll-y-transition>
                 <div
                   v-if="isSelected"
@@ -43,10 +46,12 @@
                 </div>
               </v-scroll-y-transition>
             </v-card>
-           <div class="mb-2">
-           	 <v-label v-if="img">{{ $t("general.img") + " " + index }}</v-label>
-	            <v-label v-else>{{ $t("general.empty") }}</v-label>
-           </div>
+            <div class="mb-2">
+              <v-label v-if="img">{{
+                $t("general.img") + " " + index
+              }}</v-label>
+              <v-label v-else>{{ $t("general.empty") }}</v-label>
+            </div>
           </v-sheet>
         </v-slide-group-item>
       </v-slide-group>

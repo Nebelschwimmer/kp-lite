@@ -182,6 +182,7 @@ export default {
     title: "Actions",
     login_required: "Login required",
     choose_cover: "Choose cover",
+    choose_poster: "Choose poster",
     reload: "Reload",
     submit: "Submit",
     view: "View",
@@ -231,10 +232,12 @@ export default {
     asc: "New first",
     desc: "Old first",
     edit_cover: "Edit cover",
+    edit_poster: "Edit poster",
     delete_cover: "Delete cover",
     edit_avatar: "Edit avatar",
     set_avatar: "Set as avatar",
     set_cover: "Set as cover",
+    set_poster: "Set as poster",
   },
   state: {
     all: "All",
@@ -297,6 +300,7 @@ export default {
     },
     films: {
       title: "Films",
+      poster: "Poster",
       edit_description: "Edit description",
       edit_gallery: "Edit gallery",
       editing: "Editing",

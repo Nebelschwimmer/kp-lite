@@ -54,6 +54,7 @@
       @close="fullscreenMode = false"
       @avatar:set="handleSetAvatar"
       @cover:set="handleSetCover"
+      @poster:set="handleSetPoster"
       @delete:img="handleDeleteImg"
     />
   </div>
@@ -64,7 +65,7 @@ import GalleryFullscreenViewer from "./GalleryFullscreenViewer.vue";
 import ErrorPlaceHolder from "../Containment/Img/ErrorPlaceHolder.vue";
 const emit = defineEmits<{
   (event: "editor:open"): void;
-  (event: "avatar:set" | "cover:set" | "delete:img", index: number): void;
+  (event: "avatar:set" | "cover:set" | "delete:img" | "poster:set", index: number): void;
 }>();
 const props = defineProps<{
   sliderArr: string[];
@@ -100,6 +101,12 @@ const handleSetCover = (index: number): void => {
 
 const handleDeleteImg = (index: number): void => {
   emit("delete:img", index);
+  fullscreenMode.value = false;
+};
+
+const handleSetPoster = (index: number): void => {
+  console.log(1)
+  emit("poster:set", index);
   fullscreenMode.value = false;
 };
 </script>

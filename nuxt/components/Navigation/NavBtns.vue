@@ -97,7 +97,6 @@ const localeRoute = useLocaleRoute();
 const computedActiveNavBtn = computed(() => {
   const route = useRoute();
   const routeName = (route.name as string) || "";
-  console.log(routeName)
   return {
     home: routeName.startsWith("home"),
     films: routeName.startsWith("film") || routeName.startsWith("newFilm"),

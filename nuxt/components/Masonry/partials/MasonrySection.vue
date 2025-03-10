@@ -4,8 +4,7 @@
     tag:section
     class="my-3"
     rounded="lg"
-    :color="darkAccentColor"
-    border
+    variant="text"
   >
     <v-card-title>
       <div class="pa-2 d-flex flex-column ga-2 mb-2">
@@ -19,7 +18,7 @@
       <slot />
     </v-card-text>
     <v-row v-else>
-      <v-col v-for="i in 2" :key="i">
+      <v-col>
         <v-skeleton-loader type="card" height="100vh" />
       </v-col>
     </v-row>
@@ -35,3 +34,5 @@ defineProps<{
   darkAccentColor?: string;
 }>();
 </script>
+
+

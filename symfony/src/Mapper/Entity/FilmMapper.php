@@ -33,7 +33,7 @@ class FilmMapper
       ->setId($film->getId())
       ->setName($film->getName())
       ->setReleaseYear($film->getReleaseYear())
-      ->setCover($film->getCover())
+      ->setPoster($film->getCover())
     ;
   }
   public function mapToDetail(Film $film, FilmDetail $model, string $locale = 'ru'): FilmDetail
@@ -57,6 +57,7 @@ class FilmMapper
       ->setTeamData($this->mapFilmTeam($film))
       ->setCreatedAt($film->getCreatedAt()->format('Y-m-d'))
       ->setUpdatedAt($film->getUpdatedAt()->format('Y-m-d'))
+      ->setPoster($film->getPoster())
     ;
   }
 
@@ -91,7 +92,7 @@ class FilmMapper
       $film->getId(),
       $film->getName(),
       $film->getReleaseYear(),
-      $film->getCover() ? $film->getCover() : '',
+      $film->getPoster(),
       $film->getDescription(),
       $film->getRating(),
       $this->mapAssessments($film->getAssessments()->toArray())
@@ -205,7 +206,7 @@ class FilmMapper
     if ($film->getProducer()) {
       $producerData = [
         'id' => $film->getProducer()->getId() ?? null,
-        'name' => $film->getProducer()->getFullName() ?? null, 
+        'name' => $film->getProducer()->getFullName() ?? null,
         'avatar' => $film->getProducer()->getAvatar() ?? null,
       ];
     }

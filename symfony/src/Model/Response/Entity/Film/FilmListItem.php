@@ -5,12 +5,12 @@ use OpenApi\Attributes as OA;
 
 class FilmListItem
 {
-  public function __construct(?int $id, ?string $name = null, int $releaseYear = null, ?string $cover = null, ?string $description = null, ?string $rating = null, array $assessments = [])
+  public function __construct(?int $id, ?string $name = null, int $releaseYear = null, ?string $poster = null, ?string $description = null, ?string $rating = null, array $assessments = [])
   {
     $this->id = $id;
     $this->name = $name;
     $this->releaseYear = $releaseYear;
-    $this->cover = $cover;
+    $this->poster = $poster;
     $this->description = $description;
     $this->rating = $rating;
     $this->assessments = $assessments;
@@ -25,8 +25,8 @@ class FilmListItem
   #[OA\Property(example: 1997)]
   public int $releaseYear;
   
-  #[OA\Property(example: 'cover.jpg')]
-  public string $cover = '';
+  #[OA\Property(example: 'poster.jpg')]
+  public ?string $poster = '';
 
   #[OA\Property(example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.')]
   public string $description = '';
@@ -81,14 +81,14 @@ class FilmListItem
     return $this;
   }
 
-  public function getCover(): string
+  public function getPoster(): ?string
   {
-    return $this->cover;
+    return $this->poster;
   }
 
-  public function setCover(string $cover): static
+  public function setPoster(?string $poster): static
   {
-    $this->cover = $cover;
+    $this->poster = $poster;
 
     return $this;
   }

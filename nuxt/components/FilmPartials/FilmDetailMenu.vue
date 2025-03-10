@@ -14,6 +14,12 @@
           @click="$emit('choose:cover')"
         />
         <v-list-item
+          :title="$t('actions.choose_poster')"
+          prepend-icon="mdi-post"
+          value="poster"
+          @click="$emit('choose:poster')"
+        />
+        <v-list-item
           :title="$t('actions.edit')"
           prepend-icon="mdi-pencil"
           value="edit"
@@ -62,6 +68,7 @@ defineProps<{
 }>();
 defineEmits([
   "choose:cover",
+  "choose:poster",
   "edit:general",
   "edit:description",
   "edit:gallery",

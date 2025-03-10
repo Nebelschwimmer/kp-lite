@@ -150,6 +150,7 @@ export default {
     login_required: "Требуется авторизация",
     confirm: "Подтвердить",
     choose_cover: "Выбрать обложку",
+    choose_poster: "Выбрать постер",
     reload: "Обновить",
     view: "Просмотр",
     submit: "Отправить",
@@ -198,10 +199,12 @@ export default {
     asc: "Сначала новые",
     desc: "Сначала старые",
     edit_cover: "Изменить обложку",
+    edit_poster: "Изменить постер",
     delete_cover: "Удалить обложку",
     edit_avatar: "Изменить аватар",
     set_avatar: "Установить как аватар",
     set_cover: "Установить как обложку",
+    set_poster: "Установить как постер",
   },
   search: {
     title: "Поиск",
@@ -279,6 +282,7 @@ export default {
     network_error: "Ошибка сети",
     general_info: "Общая информация",
     detailed_info: "Подробная информация",
+    
     gallery: "Галерея",
     home: {
       title: "Главная",
@@ -295,6 +299,7 @@ export default {
     },
     films: {
       title: "Фильмы",
+      poster: "Постер",
       List: "Список фильмов",
       edit_description: "Редактировать описание",
       edit_gallery: "Редактировать галерею",

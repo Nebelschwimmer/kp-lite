@@ -1,33 +1,42 @@
 <template>
-  <masonry-wall :items="latestFilms" :gap="16">
+  <masonry-wall :items="latestFilms" :gap="16" :max-columns="2">
     <template #default="{ item, index }">
       <MasonryCard
         :loading="loading"
         :index="index"
         :item="item"
-        :img="item?.cover || ''"
+        :img="item?.poster || ''"
         :link="`/films/${item?.id}`"
       >
         <template #append>
           <ClientOnly>
             <v-rating
+              v-if="$vuetify.display.mdAndUp"
               :model-value="item?.rating || 0"
               density="compact"
               size="small"
               readonly
               active-color="yellow-darken-3"
             />
+            <v-chip
+              v-else
+              color="warning"
+              density="compact"
+              prepend-icon="mdi-star"
+            >
+              {{ item?.rating || 0 }}
+            </v-chip>
           </ClientOnly>
         </template>
 
         <template #default>
           <v-list-item
             :subtitle="item?.description"
-            border
+            elevation="5"
             rounded="lg"
             class="ma-2"
             density="compact"
-            lines="two"
+            lines="three"
           />
           <v-list v-if="item.assessments.length > 0" :nav="sidebar">
             <v-list-subheader>{{
@@ -63,8 +72,7 @@
               variant="plain"
               @click="navigateTo(`/films/${item?.id}`)"
             >
-              {{ $t("actions.to_page") }}</v-btn
-            >
+              {{ $t("actions.to_page") }}</v-btn>
           </div>
         </template>
       </MasonryCard>

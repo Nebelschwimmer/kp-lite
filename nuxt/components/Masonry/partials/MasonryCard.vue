@@ -4,11 +4,10 @@
     :loading="loading"
     :title="item?.name"
     rounded="lg"
-    height="100%"
-    elevation="5"
+    
   >
     <template #image>
-      <v-img :src="img" class="img-blur" />
+      <v-img :src="img" class="img-blur" cover />
     </template>
     <template #append>
       <slot name="append" />
@@ -49,4 +48,6 @@ defineProps<{
 const localeRoute = useLocaleRoute();
 </script>
 
-<style></style>
+<style>
+
+</style>

@@ -179,6 +179,7 @@ export default {
     title: "Actions",
     login_required: "Autorisation requise",
     choose_cover: "Choisir une couverture",
+    choose_poster: "Choisir un affiche",
     reload: "Rafraîchir",
     view: "Voir",
     submit: "Soumettre",
@@ -230,10 +231,12 @@ export default {
     asc: "Sauf les nouveaux",
     desc: "Sauf les vieux",
     edit_cover: "Modifier la couverture",
+    edit_poster: "Modifier l'affiche",
     delete_cover: "Supprimer la couverture",
     edit_avatar: "Modifier l'avatar",
     set_avatar: "Mettre comme avatar",
     set_cover: "Mettre comme couverture",
+    set_poster: "Mettre comme affiche",
   },
   state: {
     all: "Toutes",
@@ -295,6 +298,7 @@ export default {
     },
     films: {
       title: "Films",
+      poster: "Poster",
       edit_description: "Modifier la description",
       edit_gallery: "Modifier la galerie",
       list: "Liste des films",
@@ -429,6 +433,7 @@ export default {
       update_poster: "Mettre à jour le poster",
       update_gallery: "Mettre à jour la galerie",
       gallery_actual: "Galerie actuelle",
+      gallery_item_delete_confirm: "Voulez-vous vraiment supprimer ce fichier de la galerie?",
     },
     stepper: {
       first: "Informations principales",

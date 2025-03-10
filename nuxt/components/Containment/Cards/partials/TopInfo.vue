@@ -31,7 +31,7 @@
               location="bottom end"
               icon="mdi-pencil"
               @click="handleEditAvatar"
-            ></v-fab>
+            />
           </div>
           <template v-if="!loading">
             <div class="d-flex flex-column ga-1">

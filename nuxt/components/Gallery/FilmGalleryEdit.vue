@@ -4,6 +4,9 @@
       <v-tab value="cover" prepend-icon="mdi-image" color="primary">{{
         $t("actions.edit_cover")
       }}</v-tab>
+       <v-tab value="poster" prepend-icon="mdi-post" color="primary">{{
+        $t("actions.edit_poster")
+      }}</v-tab>
       <v-tab
         value="upload"
         prepend-icon="mdi-upload"
@@ -27,6 +30,14 @@
             :gallery="film?.gallery || []"
             :card-height="cardHeight"
             @img:select="$emit('cover:change', $event)"
+          />
+        </v-tabs-window-item>
+        <v-tabs-window-item value="poster">
+          <SingleImgSelector
+            :cover-index="selectedPosterIndex"
+            :gallery="film?.gallery || []"
+            :card-height="cardHeight"
+            @img:select="$emit('poster:change', $event)"
           />
         </v-tabs-window-item>
         <v-tabs-window-item value="upload">
@@ -55,7 +66,7 @@ import GalleryUploader from "./GalleryUploader.vue";
 import MultipleImgSelector from "./Partials/MultipleImgSelector.vue";
 import SingleImgSelector from "./Partials/SingleImgSelector.vue";
 
-defineEmits(["update:selected", "delete:selected", "upload", "cover:change"]);
+defineEmits(["update:selected", "delete:selected", "upload", "cover:change", "poster:change"]);
 
 const props = defineProps<{
   activeTab?: number;
@@ -78,6 +89,17 @@ const selectedCoverIndex = ref(
         (item: string) => item === props.film?.cover
       ) ?? 0) + 1
 );
+
+const selectedPosterIndex = ref(
+  props.film?.gallery?.findIndex(
+    (item: string) => item === props.film?.poster
+  ) === -1
+    ? 0
+    : (props.film?.gallery?.findIndex(
+        (item: string) => item === props.film?.poster
+      ) ?? 0) + 1
+);
+
 const computedUploadCount = computed((): number => {
   return props.uploadCount - galleryFiles.value.length;
 });

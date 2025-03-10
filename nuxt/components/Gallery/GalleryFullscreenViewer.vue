@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-template-shadow -->
 <template>
   <v-dialog :model-value="showGallery" fullscreen>
     <v-sheet>
@@ -19,13 +20,19 @@
                 v-if="withAvatar"
                 :title="$t('actions.set_avatar')"
                 prepend-icon="mdi-account"
-                @click="$emit('avatar:set', currentImgIndex + 1)"
+                @click="$emit('avatar:set', activeImg)"
+              />
+              <v-list-item
+                v-else
+                :title="$t('actions.set_poster')"
+                prepend-icon="mdi-post"
+                @click="$emit('poster:set', activeImg)"
               />
 
               <v-list-item
                 :title="$t('actions.set_cover')"
                 prepend-icon="mdi-image"
-                @click="$emit('cover:set', currentImgIndex + 1)"
+                @click="$emit('cover:set', activeImg)"
               />
               <v-list-item
                 :title="$t('actions.remove')"
@@ -41,13 +48,21 @@
             v-if="withAvatar"
             :disabled="!isAuthenticated"
             prepend-icon="mdi-account"
-            @click="$emit('avatar:set', currentImgIndex + 1)"
+            @click="$emit('avatar:set', activeImg)"
             >{{ $t("actions.set_avatar") }}</v-btn
           >
           <v-btn
+            v-else
+            :disabled="!isAuthenticated"
+            prepend-icon="mdi-post"
+            @click="$emit('poster:set', activeImg)"
+          >
+            {{ $t("actions.set_poster") }}
+          </v-btn>
+          <v-btn
             prepend-icon="mdi-image"
             :disabled="!isAuthenticated"
-            @click="$emit('cover:set', currentImgIndex + 1)"
+            @click="$emit('cover:set', activeImg)"
             >{{ $t("actions.set_cover") }}</v-btn
           >
           <v-btn
@@ -75,7 +90,6 @@
             :key="i"
             :value="item"
             :src="item"
-            @update:model-value="currentImgIndex = i"
           />
         </v-carousel>
       </v-card-text>
@@ -95,9 +109,12 @@ import { useAuthStore } from "~/stores/authStore";
 import ConfirmDialog from "../Dialogs/ConfirmDialog.vue";
 const emits = defineEmits<{
   (event: "close"): void;
-  (event: "avatar:set" | "cover:set" | "delete:img", index: number): void;
+  (
+    event: "avatar:set" | "cover:set" | "delete:img" | "poster:set",
+    index: number
+  ): void;
 }>();
-defineProps<{
+const props = defineProps<{
   showGallery: boolean;
   galleryContent: string[] | string;
   noContentLabel?: string;
@@ -108,11 +125,10 @@ defineProps<{
 
 const { isAuthenticated } = storeToRefs(useAuthStore());
 
-const currentImgIndex = ref<number>(0);
 const showConfirmDialog = ref<boolean>(false);
 
 const handleConfirm = () => {
-  emits("delete:img", currentImgIndex.value + 1);
+  emits("delete:img", props.activeImg);
   showConfirmDialog.value = false;
 };
 </script>

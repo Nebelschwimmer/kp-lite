@@ -106,7 +106,7 @@
                       v-bind="props"
                       height="32"
                       src="/img/psql.svg"
-                    ></v-img>
+                    />
                   </template>
                   Postresql 16
                 </v-tooltip>

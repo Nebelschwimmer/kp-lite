@@ -9,7 +9,6 @@ export default defineNuxtConfig({
     "nuxt-auth-utils",
   ],
   css: ["@/assets/css/globals.scss"],
-  ssr: false,
   app: {
     pageTransition: {
       name: "page",

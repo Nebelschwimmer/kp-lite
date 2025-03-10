@@ -1,49 +1,51 @@
 <template>
-  <div>
-    <v-card rounded="lg">
-      <v-toolbar order="1" scroll-behavior="fade-image" class="glassed">
-        <template #image>
-          <v-img gradient="to top right, rgba(0,0,0,.5), rgba(0,0,0,.5)" />
-        </template>
-        <template #prepend>
-          <BackBtn />
-        </template>
-        <v-toolbar-title>
-          <span class="font-weight-bold"> {{ pageName }} </span>
-        </v-toolbar-title>
-
-        <slot name="menu" />
-      </v-toolbar>
-      <template v-if="notification">
-        <div class="d-flex justify-center w-100 glassed pa-2">
-          <slot name="notification" location="start" />
-        </div>
+  <v-app id="detail_card">
+    <v-app-bar order="0" scroll-behavior="fade-image" class="glassed">
+      <template #image>
+        <v-img gradient="to top right, rgba(0,0,0,.5), rgba(0,0,0,.5)" />
       </template>
-      <template v-if="loading" #loader>
-        <v-progress-linear indeterminate color="primary" />
+      <template #prepend>
+        <BackBtn />
       </template>
+      <v-toolbar-title>
+        <span class="font-weight-bold"> {{ pageName }} </span>
+      </v-toolbar-title>
+      <slot name="menu" />
+    </v-app-bar>
+    <slot name="sidebar" />
+    <v-main>
       <v-card>
-        <template #image>
-          <v-parallax height="500" :src="cover" class="img-blur" />
+        <template v-if="notification">
+          <div class="d-flex justify-center w-100 glassed pa-2">
+            <slot name="notification" />
+          </div>
         </template>
-        <v-img v-if="cover" :src="cover" cover height="350">
-          <template #placeholder>
-            <v-sheet height="100%">
-              <div class="fill-height d-flex align-center justify-center">
-                <v-progress-circular indeterminate />
-              </div>
-            </v-sheet>
+        <template v-if="loading" #loader>
+          <v-progress-linear indeterminate color="primary" />
+        </template>
+        <v-card>
+          <template #image>
+            <v-parallax height="500" :src="cover" class="img-blur" />
           </template>
-          <template #error>
-            <ErrorPlaceHolder show-label />
-          </template>
-        </v-img>
-        <v-sheet v-else class="default-cover img-blur" height="350" />
-        <slot name="general_info" />
-        <slot name="text" />
+          <v-img v-if="cover" :src="cover" cover height="350">
+            <template #placeholder>
+              <v-sheet height="100%">
+                <div class="fill-height d-flex align-center justify-center">
+                  <v-progress-circular indeterminate />
+                </div>
+              </v-sheet>
+            </template>
+            <template #error>
+              <ErrorPlaceHolder show-label />
+            </template>
+          </v-img>
+          <div v-else class="default-cover img-blur" />
+          <slot name="general_info" />
+          <slot name="text" />
+        </v-card>
       </v-card>
-    </v-card>
-  </div>
+    </v-main>
+  </v-app>
 </template>
 
 <script lang="ts" setup>
@@ -101,6 +103,6 @@ defineProps<{
       rgba(145, 145, 145, 0.05) 66.666%,
       rgba(145, 145, 145, 0.05) 99.999%
     ),
-    linear-gradient(90deg, rgb(63, 53, 21), rgba(3, 117, 211, 0.603));
+    linear-gradient(90deg, rgb(110, 90, 23), rgba(3, 117, 211, 0.603)) !important;
 }
 </style>

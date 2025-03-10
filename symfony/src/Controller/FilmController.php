@@ -6,7 +6,6 @@ use App\Dto\Common\FileNameSearchDto;
 use App\Dto\Common\LocaleDto;
 use App\Dto\Entity\Film\FilmQueryDto;
 use App\Dto\Entity\Assessment\AssessmentDto;
-use App\Dto\Entity\ActorRoleDto;
 use App\Dto\Entity\Film\FilmDto;
 use App\Entity\User;
 use App\Exception\NotFound\FilmNotFoundException;
@@ -35,7 +34,8 @@ class FilmController extends AbstractController
   public function __construct(
     private FilmService $filmService,
     private LoggerInterface $logger,
-  ) {}
+  ) {
+  }
 
   /**
    * Find a film by id
@@ -108,7 +108,7 @@ class FilmController extends AbstractController
   {
     $status = Response::HTTP_OK;
     $data = null;
-    $count = 5;
+    $count = 10;
     try {
       $data = $this->filmService->latest($count);
     } catch (FilmNotFoundException $e) {

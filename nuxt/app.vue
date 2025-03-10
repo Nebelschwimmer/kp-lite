@@ -78,6 +78,9 @@ p {
   ) !important;
   background-attachment: fixed !important;
 }
+.body {
+  background-color: #0c151c !important;
+}
 
 html {
   scroll-behavior: smooth !important;

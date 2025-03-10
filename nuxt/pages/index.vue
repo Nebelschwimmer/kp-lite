@@ -4,64 +4,68 @@
       <Title>{{ definePageTitle($t("pages.home.title")) }}</Title>
       <Meta name="description" :content="$t('page_descriptions.home')" />
     </Head>
-    <v-card class="mx-auto" max-width="1300" variant="text">
-      <template v-if="filmsPresent && personsPresent">
-        <main class="d-flex flex-column ga-6 overflow-y-hidden">
-          <section class="masonry-section">
+    <v-app id="home">
+      
+      <v-main>
+        <template v-if="filmsPresent && personsPresent">
+          <main class="d-flex flex-column ga-6 overflow-y-hidden">
+            <section class="masonry-section">
+              <MasonrySection
+                v-if="latestFilms.length > 0"
+                :present="filmsPresent"
+                :loading="filmLoading"
+                :dark-accent-color="darkAccentColors[0]"
+                :title="$t('pages.home.newest')"
+              >
+                <template #default>
+                  <NewestFilmsMasonryWall
+                    :latest-films="latestFilms"
+                    :loading="filmLoading"
+                    :sidebar="false" 
+                  />
+                </template>
+              </MasonrySection>
+            </section>
+  
             <MasonrySection
-              v-if="latestFilms.length > 0"
-              :present="filmsPresent"
-              :loading="filmLoading"
-              :dark-accent-color="darkAccentColors[0]"
-              :title="$t('pages.home.newest')"
+              v-if="popularActors.length > 0"
+              :present="personsPresent"
+              :loading="personLoading"
+              :dark-accent-color="darkAccentColors[1]"
+              :title="$t('pages.home.popular_actors')"
             >
               <template #default>
-                <NewestFilmsMasonryWall
-                  :latest-films="latestFilms"
-                  :loading="filmLoading"
-                  :sidebar="false" 
+                <PopularActorsMasonry
+                  :popular-actors="popularActors"
+                  :loading="personLoading"
+                  :sidebar="false"
                 />
               </template>
             </MasonrySection>
-          </section>
-
-          <MasonrySection
-            v-if="popularActors.length > 0"
-            :present="personsPresent"
-            :loading="personLoading"
-            :dark-accent-color="darkAccentColors[1]"
-            :title="$t('pages.home.popular_actors')"
-          >
+        
+          </main>
+        </template>
+        <template v-else-if="!filmLoading && !personLoading">
+          <EmptyPage>
             <template #default>
-              <PopularActorsMasonry
-                :popular-actors="popularActors"
-                :loading="personLoading"
-                :sidebar="false"
+              <v-empty-state
+                :headline="$t('empty_states.no_content')"
+                :title="$t('empty_states.no_content_notice')"
+                :action-text="$t('empty_states.actions.add_persons')"
+                icon="mdi-alert-circle"
+                @click:action="navigateTo('/persons/new')"
               />
             </template>
-          </MasonrySection>
-          <AppFooter v-if="!filmLoading && !personLoading" />
-        </main>
-      </template>
-      <template v-else-if="!filmLoading && !personLoading">
-        <EmptyPage>
-          <template #default>
-            <v-empty-state
-              :headline="$t('empty_states.no_content')"
-              :title="$t('empty_states.no_content_notice')"
-              :action-text="$t('empty_states.actions.add_persons')"
-              icon="mdi-alert-circle"
-              @click:action="navigateTo('/persons/new')"
-            />
-          </template>
-        </EmptyPage>
-      </template>
-      <template v-else>
-        <div style="height: 100vh" class="d-flex align-center justify-center">
-          <v-progress-circular indeterminate color="primary" />
-        </div>
-      </template>
-    </v-card>
+          </EmptyPage>
+        </template>
+        <template v-else>
+          <div style="height: 100vh" class="d-flex align-center justify-center">
+            <v-progress-circular indeterminate color="primary" />
+          </div>
+        </template>
+        <AppFooter v-if="!filmLoading && !personLoading" />
+      </v-main>
+    </v-app>
   </div>
 </template>
 

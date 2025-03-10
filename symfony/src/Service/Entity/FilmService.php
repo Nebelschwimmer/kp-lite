@@ -24,6 +24,7 @@ use App\Repository\FilmRepository;
 use App\Repository\PersonRepository;
 use App\Repository\UserRepository;
 use App\Service\FileSystemService;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class FilmService
@@ -37,7 +38,8 @@ class FilmService
     private PersonMapper $personMapper,
     private FileSystemService $fileSystemService,
     private ActorRoleRepository $actorRoleRepository
-  ) {}
+  ) {
+  }
 
   public function get(int $id, ?string $locale = null): FilmDetail
   {
@@ -84,11 +86,11 @@ class FilmService
     $film = $this->find($id);
     $genres = $film->getGenres();
     $genreIds = [];
-    
-    foreach ( $genres as $genre ) {
+
+    foreach ($genres as $genre) {
       $genreIds[] = $genre->value;
     }
-    
+
     $films = $this->repository->findWithSimilarGenres($genreIds);
     $items = array_map(
       fn(Film $film) => $this->filmMapper->mapToListItem($film),
@@ -273,6 +275,10 @@ class FilmService
       $film->setCover($dto->cover);
     }
 
+    if ($dto->poster !== null) {
+      $film->setPoster($dto->poster);
+    }
+
     $this->repository->store($film);
 
     return $this->get($film->getId(), $locale);
@@ -334,6 +340,8 @@ class FilmService
     return $this->findForm($film->getId());
   }
 
+
+
   private function setGalleryPaths(int $id): array
   {
     $galleryDirPath = $this->specifyFilmGalleryPath($id);
@@ -356,6 +364,7 @@ class FilmService
 
     return $galleryDirPath;
   }
+
 
   private function createUploadsDir(int $id): string
   {

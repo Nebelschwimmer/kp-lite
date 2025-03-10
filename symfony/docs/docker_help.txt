@@ -1,2 +1,0 @@
-//Вход в контейнер	
-docker exec -it <container_name|id> bash

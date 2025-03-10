@@ -4,126 +4,136 @@
       <Title>{{ definePageTitle(film?.name || "") }}</Title>
       <Meta name="description" :content="film?.description" />
     </Head>
-    <v-navigation-drawer location="start" width="400">
-      <FilmDrawerContent
-        :general-info="generalInfo"
-        :starring="starring"
-        :team="team"
-      />
-    </v-navigation-drawer>
-    <DetailCard
-      :page-name="film?.name + ' (' + film?.releaseYear + ')' || ''"
-      :loading="loading"
-      :display-avatar="false"
-      :cover="film?.cover || ''"
-      :is-auth="isAuthenticated"
-      left-drawer
-      :notification="!isAuthenticated"
-      @drawer:toggle="showLeftDrawer = !showLeftDrawer"
-    >
-      <template #notification>
-        <NotAuthWarning v-if="!isAuthenticated" />
-      </template>
-      <template #menu>
-        <FilmDetailMenu
-          :is-authenticated="isAuthenticated"
-          @choose:cover="chooseCover"
-          @edit:general="handleGeneralInfoEdit"
-          @edit:description="handleEditDescription"
-          @edit:gallery="openGalleryEditor"
-          @delete:film="showDeleteWarning = true"
-        />
-      </template>
-      <template #text>
-        <main>
-          <FilmDrawerContent
-            v-if="$vuetify.display.smAndDown"
-            :general-info="generalInfo"
-            :starring="starring"
-            :team="team"
+    <main>
+      <DetailCard
+        :page-name="film?.name + ' (' + film?.releaseYear + ')' || ''"
+        :loading="loading"
+        :display-avatar="false"
+        :cover="film?.cover || ''"
+        :is-auth="isAuthenticated"
+        left-drawer
+        :notification="!isAuthenticated"
+        @drawer:toggle="showLeftDrawer = !showLeftDrawer"
+      >
+        <template #sidebar>
+          <client-only>
+            <v-navigation-drawer width="400">
+              <FilmDrawerContent
+                :poster="film?.poster || ''"
+                :general-info="generalInfo"
+                :starring="starring"
+                :team="team"
+              />
+            </v-navigation-drawer>
+          </client-only>
+        </template>
+        <template #notification>
+          <NotAuthWarning v-if="!isAuthenticated" />
+        </template>
+        <template #menu>
+          <FilmDetailMenu
+            :is-authenticated="isAuthenticated"
+            @choose:cover="chooseCover"
+            @choose:poster="choosePoster"
+            @edit:general="handleGeneralInfoEdit"
+            @edit:description="handleEditDescription"
+            @edit:gallery="openGalleryEditor"
+            @delete:film="showDeleteWarning = true"
           />
-          <v-expansion-panels
-            v-model="mainAccordion"
-            variant="accordion"
-            bg-color="transparent"
-            multiple
-            border
-          >
-            <v-expansion-panel
-              id="gallery"
-              value="gallery"
-              tag="section"
-              :title="$t('pages.films.gallery')"
+        </template>
+        <template #text>
+          <main>
+            <FilmDrawerContent
+              v-if="$vuetify.display.smAndDown"
+              :poster="film?.poster || ''"
+              :general-info="generalInfo"
+              :starring="starring"
+              :team="team"
+            />
+            <v-expansion-panels
+              v-model="mainAccordion"
+              variant="accordion"
+              bg-color="transparent"
+              multiple
+              border
             >
-              <v-expansion-panel-text>
-                <GalleryViewer
-                  :slider-arr="sliderGalleryArr || []"
-                  :disabled="!isAuthenticated"
-                  :gallery="film?.gallery || []"
-                  :entity-name="film?.name || ''"
-                  :loading="loading"
-                  :with-avatar="false"
-                  @editor:open="openGalleryEditor"
-                  @cover:set="handleChangeCover"
-                  @delete:img="handleDeleteImg"
-                />
-              </v-expansion-panel-text>
-            </v-expansion-panel>
-            <v-expansion-panel
-              id="description"
-              :title="$t('pages.films.description')"
-              tag="section"
-              class="content-item"
-              value="description"
-            >
-              <v-expansion-panel-text>
-                <IndentedEditableText
-                  :edit-mode="editDescriptionMode"
-                  :messages="$t('pages.films.edit_description')"
-                  :text="film?.description || ''"
-                  @sumbit:edit="submitDescriptionEdit"
-                />
-              </v-expansion-panel-text>
-            </v-expansion-panel>
-            <v-expansion-panel
-              id="rating"
-              tag="section"
-              value="rating"
-              class="content-item"
-              :title="$t('pages.films.rating')"
-            >
-              <v-expansion-panel-text>
-                <div class="d-flex flex-column justify-center ga-1">
-                  <FilmAssessments
-                    :current-rating="film?.rating || ''"
-                    :assessments="film?.assessments || []"
-                    :is-assessing="isAssessing"
-                    :is-authenticated="isAuthenticated"
-                    :rating="rating"
-                    :comment="comment"
-                    @assession:submit="submitAssessment"
-                    @assession:enable="isAssessing = true"
-                    @assession:cancel="cancelAssessment"
-                    @comment:update="comment = $event"
-                    @rating:update="rating = $event"
+              <v-expansion-panel
+                id="gallery"
+                value="gallery"
+                tag="section"
+                :title="$t('pages.films.gallery')"
+              >
+                <v-expansion-panel-text>
+                  <GalleryViewer
+                    :slider-arr="sliderGalleryArr || []"
+                    :disabled="!isAuthenticated"
+                    :gallery="film?.gallery || []"
+                    :entity-name="film?.name || ''"
+                    :loading="loading"
+                    :with-avatar="false"
+                    @poster:set="handleChangePoster"
+                    @editor:open="openGalleryEditor"
+                    @cover:set="handleChangeCover"
+                    @delete:img="handleDeleteImg"
                   />
-                </div>
-              </v-expansion-panel-text>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </main>
-        <v-footer class="glassed">
-          <v-spacer />
-          <div class="d-flex align-center text-caption ga-1">
-            <span>{{ $t("general.published_by") }}</span>
-            <nuxt-link class="text-secondary">{{
-              film?.publisherData ? film?.publisherData.name : ""
-            }}</nuxt-link>
-            {{ film?.createdAt || "" }}
-          </div>
-        </v-footer>
-      </template>
-    </DetailCard>
+                </v-expansion-panel-text>
+              </v-expansion-panel>
+              <v-expansion-panel
+                id="description"
+                :title="$t('pages.films.description')"
+                tag="section"
+                class="content-item"
+                value="description"
+              >
+                <v-expansion-panel-text>
+                  <IndentedEditableText
+                    :edit-mode="editDescriptionMode"
+                    :messages="$t('pages.films.edit_description')"
+                    :text="film?.description || ''"
+                    @sumbit:edit="submitDescriptionEdit"
+                  />
+                </v-expansion-panel-text>
+              </v-expansion-panel>
+              <v-expansion-panel
+                id="rating"
+                tag="section"
+                value="rating"
+                class="content-item"
+                :title="$t('pages.films.rating')"
+              >
+                <v-expansion-panel-text>
+                  <div class="d-flex flex-column justify-center ga-1">
+                    <FilmAssessments
+                      :current-rating="film?.rating || ''"
+                      :assessments="film?.assessments || []"
+                      :is-assessing="isAssessing"
+                      :is-authenticated="isAuthenticated"
+                      :rating="rating"
+                      :comment="comment"
+                      @assession:submit="submitAssessment"
+                      @assession:enable="isAssessing = true"
+                      @assession:cancel="cancelAssessment"
+                      @comment:update="comment = $event"
+                      @rating:update="rating = $event"
+                    />
+                  </div>
+                </v-expansion-panel-text>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </main>
+          <v-footer class="glassed">
+            <v-spacer />
+            <div class="d-flex align-center text-caption ga-1">
+              <span>{{ $t("general.published_by") }}</span>
+              <nuxt-link class="text-secondary">{{
+                film?.publisherData ? film?.publisherData.name : ""
+              }}</nuxt-link>
+              {{ film?.createdAt || "" }}
+            </div>
+          </v-footer>
+        </template>
+      </DetailCard>
+    </main>
     <ConfirmDialog
       v-model="showConfirmDialog"
       type="error"
@@ -175,6 +185,7 @@
           :remove-disabled="!film?.gallery.length"
           :card-height="GALLERY_CARD_HEIGHT"
           @cover:change="handleChangeCover"
+          @poster:change="handleChangePoster"
           @update:selected="selectedImagesIndices = $event"
           @delete:selected="showConfirmDialog = true"
           @upload="handleGalleryUpload"
@@ -210,6 +221,7 @@ import FilmAssessments from "~/components/FilmPartials/FilmAssessments.vue";
 import FilmDrawerContent from "~/components/FilmPartials/FilmDrawerContent.vue";
 import FilmDetailMenu from "~/components/FilmPartials/FilmDetailMenu.vue";
 import NotAuthWarning from "~/components/Misc/NotAuthWarning.vue";
+
 
 const GALLERY_CARD_HEIGHT: number = 200;
 
@@ -453,6 +465,11 @@ const chooseCover = (): void => {
   activeTab.value = 0;
 };
 
+const choosePoster = (): void => {
+  editGalleryMode.value = true;
+  activeTab.value = 1;
+};
+
 const handleGalleryUpload = async (files: File[]) => {
   const id = Number(useRoute().params.id);
   await uploadGallery(files, id);
@@ -464,8 +481,18 @@ const handleGalleryUpload = async (files: File[]) => {
 };
 
 const handleChangeCover = async (index: number) => {
-  console.log(index);
   filmForm.value.cover = film.value?.gallery[index - 1] || "";
+  await editFilm(locale.value);
+  editGalleryMode.value = false;
+  await fetchData();
+  await nextTick(() => {
+    showSnackbar.value = true;
+  });
+};
+
+const handleChangePoster = async (index: number) => {
+  console.log(index);
+  filmForm.value.poster = film.value?.gallery[index - 1] || "";
   await editFilm(locale.value);
   editGalleryMode.value = false;
   await fetchData();
